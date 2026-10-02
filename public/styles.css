@@ -1,28 +1,28 @@
-/* Layout: sidebar + content. Soft lime-glow ground, glass cards, dark-green ink, lime accent. */
+/* Layout: sidebar + content. Soft indigo-glow ground, glass cards, indigo ink, violet accent. */
 :root {
   --font: ui-sans-serif, "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --bg: #f4f6f1; --glow-1: #e6f7a6; --glow-2: #e9f9b8;
-  --card: rgba(255,255,255,.66); --card-solid: #fbfcf8; --line: rgba(15,40,28,.09);
-  --ink: #0e1f18; --muted: #66756d; --soft: #e9eee6; --soft-2: #f1f4ee;
-  --brand: #2b2365; --on-brand: #ffffff; --focus: #2b2365; --lime: #e8ff4a; --on-lime: #12301f; --bar: #dfe5dc;
-  --ok: #3d6a12; --ok-bg: #e2f4bf; --warn: #8a5a00; --warn-bg: #ffefc7; --err: #bf3b2e; --err-bg: #fde2df;
-  --off: #55625b; --off-bg: #e6eae4; --busy: #2b2365; --busy-bg: #e0dcf6;
-  --line-chart: #2b2365;
+  --bg: #f6f5fc; --glow-1: #e2dcff; --glow-2: #ebe6ff;
+  --card: rgba(255,255,255,.7); --card-solid: #fcfbff; --line: rgba(43,35,101,.1);
+  --ink: #16112f; --muted: #6a6786; --soft: #ebe9f7; --soft-2: #f2f1fb;
+  --brand: #2b2365; --on-brand: #ffffff; --focus: #2b2365; --accent: #cdc4ff; --on-accent: #2b2365; --bar: #e2dff2;
+  --ok: #2f6b1f; --ok-bg: #dff3d3; --warn: #8a5a00; --warn-bg: #ffefc7; --err: #bf3b2e; --err-bg: #fde2df;
+  --off: #5d5a78; --off-bg: #e8e6f3; --busy: #2b2365; --busy-bg: #e0dcf6;
+  --line-chart: #2b2365; --hatch: rgba(43,35,101,.28);
   --r-lg: 24px; --r-md: 16px; --r-sm: 10px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0a1410; --glow-1: #1d2a0a; --glow-2: #15240c; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
-    --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #2b2365; --on-brand: #ece9ff; --focus: #a79bff; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
-    --ok: #c6ee7b; --ok-bg: #26370f; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
-    --off: #a3b0a8; --off-bg: #222e27; --busy: #c4bcff; --busy-bg: #2a2552; --line-chart: #a79bff; color-scheme: dark;
+    --bg: #0c0a1d; --glow-1: #1b1544; --glow-2: #151038; --card: rgba(255,255,255,.05); --card-solid: #141028; --line: rgba(255,255,255,.1);
+    --ink: #ecebff; --muted: #9c98ba; --soft: #1d1939; --soft-2: #171430; --brand: #2b2365; --on-brand: #ece9ff; --focus: #a79bff; --accent: #a79bff; --on-accent: #1a1240; --bar: #272250;
+    --ok: #9fe08a; --ok-bg: #1d3320; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
+    --off: #aaa7c8; --off-bg: #26223f; --busy: #c4bcff; --busy-bg: #2a2552; --line-chart: #a79bff; --hatch: rgba(26,18,64,.35); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0a1410; --glow-1: #1d2a0a; --glow-2: #15240c; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
-  --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #2b2365; --on-brand: #ece9ff; --focus: #a79bff; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
-  --ok: #c6ee7b; --ok-bg: #26370f; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
-  --off: #a3b0a8; --off-bg: #222e27; --busy: #c4bcff; --busy-bg: #2a2552; --line-chart: #a79bff; color-scheme: dark;
+  --bg: #0c0a1d; --glow-1: #1b1544; --glow-2: #151038; --card: rgba(255,255,255,.05); --card-solid: #141028; --line: rgba(255,255,255,.1);
+  --ink: #ecebff; --muted: #9c98ba; --soft: #1d1939; --soft-2: #171430; --brand: #2b2365; --on-brand: #ece9ff; --focus: #a79bff; --accent: #a79bff; --on-accent: #1a1240; --bar: #272250;
+  --ok: #9fe08a; --ok-bg: #1d3320; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
+  --off: #aaa7c8; --off-bg: #26223f; --busy: #c4bcff; --busy-bg: #2a2552; --line-chart: #a79bff; --hatch: rgba(26,18,64,.35); color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
@@ -52,8 +52,8 @@ svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-wi
 .side { padding: 22px 16px; display: flex; flex-direction: column; gap: 26px; position: sticky; top: 0; height: 100vh; }
 .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px; }
 .brand-name { font-weight: 700; font-size: 17px; letter-spacing: -.02em; }
-.logo { width: 36px; height: 36px; border-radius: 11px; background: #2b2365; box-shadow: 0 0 0 1px rgba(232,255,74,.25); position: relative; display: inline-block; flex: none; }
-.logo::after { content: ""; position: absolute; inset: 9px; border-radius: 6px 6px 6px 2px; background: #e8ff4a; }
+.logo { width: 36px; height: 36px; border-radius: 11px; background: #2b2365; box-shadow: 0 0 0 1px rgba(205,196,255,.3); position: relative; display: inline-block; flex: none; }
+.logo::after { content: ""; position: absolute; inset: 9px; border-radius: 6px 6px 6px 2px; background: #cdc4ff; }
 .logo::before { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #2b2365; left: 14px; top: 14px; z-index: 1; }
 .big-logo { width: 44px; height: 44px; }
 .sidenav { display: grid; gap: 4px; }
@@ -71,8 +71,8 @@ svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-wi
 .pillnav { display: flex; gap: 4px; padding: 5px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
 .pillnav button { border: 0; background: transparent; color: var(--muted); font: inherit; font-weight: 550; padding: 8px 16px; border-radius: 99px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
 .pillnav button:hover { color: var(--ink); }
-.pillnav button[aria-pressed="true"] { background: var(--lime); color: var(--on-lime); }
-.pillnav button[aria-pressed="true"]::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--on-lime); }
+.pillnav button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.pillnav button[aria-pressed="true"]::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--on-accent); }
 .top-right { display: flex; align-items: center; gap: 12px; }
 .chip { font-size: 12px; padding: 4px 10px; border-radius: 99px; background: var(--card); color: var(--muted); border: 1px solid var(--line); }
 .roundbtn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--ink); display: grid; place-items: center; cursor: pointer; position: relative; }
@@ -115,7 +115,7 @@ svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-wi
 .barcol { display: grid; grid-template-rows: 1fr auto; height: 100%; gap: 8px; min-width: 0; position: relative; }
 .bartrack { display: flex; align-items: flex-end; height: 100%; position: relative; }
 .bar { width: 100%; border-radius: 12px; background: var(--bar); min-height: 8px; }
-.bar.hot { background: var(--lime); background-image: repeating-linear-gradient(135deg, rgba(18,48,31,.22) 0 2px, transparent 2px 7px); }
+.bar.hot { background: var(--accent); background-image: repeating-linear-gradient(135deg, var(--hatch) 0 2px, transparent 2px 7px); }
 .bar-tip { position: absolute; left: 50%; transform: translate(-50%, -100%); margin-top: -8px; background: var(--brand); color: var(--on-brand); font-size: 12px; font-weight: 650; padding: 3px 9px; border-radius: 8px; white-space: nowrap; font-variant-numeric: tabular-nums; z-index: 1; }
 .barlabel { font-size: 11px; color: var(--muted); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -150,9 +150,9 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 td:first-child { white-space: normal; min-width: 210px; }
 .svc { display: flex; align-items: center; gap: 12px; }
 .tile-ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; font-weight: 700; font-size: 12.5px; flex: none; letter-spacing: .02em; }
-.g0 { background: #dff3ad; color: #34560c; } .g1 { background: #cfe9df; color: #14543f; } .g2 { background: #efe6c4; color: #6b5200; } .g3 { background: #dfe6ef; color: #2f4560; } .g4 { background: #ead9e8; color: #5d2b58; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .g0 { background: #2b3d10; color: #cdee82; } :root:not([data-theme="light"]) .g1 { background: #12372c; color: #8fe0c4; } :root:not([data-theme="light"]) .g2 { background: #3a3010; color: #f0cf72; } :root:not([data-theme="light"]) .g3 { background: #1c2b3d; color: #a9c6ea; } :root:not([data-theme="light"]) .g4 { background: #3a1f37; color: #e5b4df; } }
-:root[data-theme="dark"] .g0 { background: #2b3d10; color: #cdee82; } :root[data-theme="dark"] .g1 { background: #12372c; color: #8fe0c4; } :root[data-theme="dark"] .g2 { background: #3a3010; color: #f0cf72; } :root[data-theme="dark"] .g3 { background: #1c2b3d; color: #a9c6ea; } :root[data-theme="dark"] .g4 { background: #3a1f37; color: #e5b4df; }
+.g0 { background: #e3deff; color: #372c9a; } .g1 { background: #dbe5ff; color: #23439a; } .g2 { background: #f1dcf4; color: #6b2a76; } .g3 { background: #e1e5f1; color: #33415c; } .g4 { background: #d7eeee; color: #1d5b57; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .g0 { background: #2a2468; color: #cfc8ff; } :root:not([data-theme="light"]) .g1 { background: #1c2e66; color: #b5c9ff; } :root:not([data-theme="light"]) .g2 { background: #40204a; color: #ecc0f3; } :root:not([data-theme="light"]) .g3 { background: #232a3e; color: #b9c3dc; } :root:not([data-theme="light"]) .g4 { background: #14393a; color: #a5e0dc; } }
+  :root[data-theme="dark"] .g0 { background: #2a2468; color: #cfc8ff; } :root[data-theme="dark"] .g1 { background: #1c2e66; color: #b5c9ff; } :root[data-theme="dark"] .g2 { background: #40204a; color: #ecc0f3; } :root[data-theme="dark"] .g3 { background: #232a3e; color: #b9c3dc; } :root[data-theme="dark"] .g4 { background: #14393a; color: #a5e0dc; }
 .svc-name { font-weight: 620; background: none; border: 0; padding: 0; font: inherit; font-weight: 620; color: var(--ink); cursor: pointer; text-align: left; }
 .svc-name:hover { text-decoration: underline; }
 .sub-line { display: block; font-size: 12px; color: var(--muted); font-weight: 400; max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
