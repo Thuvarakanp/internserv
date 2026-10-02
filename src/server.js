@@ -15,6 +15,7 @@ const HEADERS = {
 };
 
 function send(res, status, body, headers = {}) {
+  if (res.req.headers['x-forwarded-proto'] === 'https') headers = { 'Strict-Transport-Security': 'max-age=31536000', ...headers };
   const isObj = typeof body === 'object' && !Buffer.isBuffer(body);
   res.writeHead(status, { ...HEADERS, ...(isObj ? { 'Content-Type': 'application/json' } : {}), ...headers });
   res.end(isObj ? JSON.stringify(body) : body);
@@ -34,11 +35,10 @@ async function readJson(req, limit = 10_000) {
 
 export function createServer({ config, monitor, auth, actions, audit }) {
   const requireUser = (req, minRole = 'viewer') => {
-    const m = /^Bearer (.+)$/.exec(req.headers.authorization || '');
-    const user = m && auth.authenticate(m[1]);
-    if (!user) throw new HttpError(401, 'unauthenticated', 'Please sign in.');
+    const user = auth.fromRequest(req);
+    if (!user) throw new HttpError(401, 'unauthenticated', auth.mode === 'proxy' ? 'Not signed in via SSO.' : 'Please sign in.');
     if (!AuthService.can(user, minRole)) throw new HttpError(403, 'forbidden', `Requires ${minRole} role.`);
-    return { user, token: m[1] };
+    return { user, token: /^Bearer (.+)$/.exec(req.headers.authorization || '')?.[1] };
   };
 
   const decorate = (svc, user) => ({ ...svc, restartable: actions.canRestart(svc) && AuthService.can(user, 'operator') });
@@ -46,16 +46,18 @@ export function createServer({ config, monitor, auth, actions, audit }) {
   async function api(req, res, url) {
     const { pathname: p, searchParams: q } = url;
     const ip = req.socket.remoteAddress;
+    auth.checkCsrf(req);
 
     if (req.method === 'GET' && p === '/api/health') {
-      return send(res, 200, { ok: true, provider: monitor.providerName, mock: config.mock, demoHint: config.mock ? 'Demo accounts: viewer / operator / admin (password: <role>123)' : null });
+      return send(res, 200, { ok: true, provider: monitor.providerName, mock: config.mock, authMode: auth.mode, demoHint: config.mock && auth.mode === 'local' ? 'Demo accounts: viewer / operator / admin (password: <role>123)' : null });
     }
     if (req.method === 'POST' && p === '/api/login') {
+      if (auth.mode !== 'local') throw new HttpError(404, 'not_found', 'Sign-in is handled by your SSO proxy.');
       const { username, password } = await readJson(req);
       return send(res, 200, auth.login(username, password, ip));
     }
     if (req.method === 'POST' && p === '/api/logout') {
-      const { token } = requireUser(req); auth.logout(token);
+      const { token } = requireUser(req); auth.logout?.(token);
       return send(res, 200, { ok: true });
     }
     if (req.method === 'GET' && p === '/api/me') return send(res, 200, requireUser(req).user);

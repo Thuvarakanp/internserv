@@ -15,7 +15,7 @@ const BANNER = {
   outage: ['✕', 'Critical service outage'],
 };
 
-const state = { token: sessionStorage.getItem('token'), user: null, data: null, q: '', status: '', group: '', timer: null, lastOk: 0, failures: 0 };
+const state = { proxy: false, token: sessionStorage.getItem('token'), user: null, data: null, q: '', status: '', group: '', timer: null, lastOk: 0, failures: 0 };
 
 function h(tag, attrs = {}, ...kids) {
   const el = document.createElement(tag);
@@ -32,11 +32,11 @@ function h(tag, attrs = {}, ...kids) {
 async function api(path, { method = 'GET', body } = {}) {
   const res = await fetch(path, {
     method,
-    headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...(state.token ? { Authorization: `Bearer ${state.token}` } : {}) },
+    headers: { 'X-Requested-With': 'service-monitor', ...(body ? { 'Content-Type': 'application/json' } : {}), ...(state.token ? { Authorization: `Bearer ${state.token}` } : {}) },
     body: body ? JSON.stringify(body) : undefined,
   });
   const json = await res.json().catch(() => ({}));
-  if (res.status === 401 && state.token) { signedOut(); }
+  if (res.status === 401 && (state.token || state.proxy)) { signedOut(); }
   if (!res.ok) throw Object.assign(new Error(json.error?.message || `Request failed (${res.status})`), { status: res.status });
   return json;
 }
@@ -224,7 +224,7 @@ function askRestart(svc) {
 /* ---------- data + lifecycle ---------- */
 
 async function refresh() {
-  if (!state.token) return;
+  if (!state.token && !state.proxy) return;
   try {
     state.data = await api('/api/services');
     state.lastOk = Date.now(); state.failures = 0;
@@ -248,6 +248,12 @@ function startPolling() {
 }
 
 function signedOut() {
+  if (state.proxy) {
+    clearInterval(state.timer);
+    $('main').hidden = true; $('logout').hidden = true;
+    $('sso-expired').showModal();
+    return;
+  }
   state.token = null; state.user = null; state.data = null;
   sessionStorage.removeItem('token');
   clearInterval(state.timer);
@@ -258,7 +264,7 @@ function signedOut() {
 async function enter() {
   state.user = await api('/api/me');
   $('user').textContent = state.user.username === state.user.role ? state.user.role : `${state.user.username} · ${state.user.role}`;
-  $('logout').hidden = false; $('main').hidden = false;
+  $('logout').hidden = state.proxy; $('main').hidden = false;
   $('tab-audit').hidden = state.user.role !== 'admin';
   selectTab('services');
   await refresh(); startPolling();
@@ -291,7 +297,12 @@ function init() {
   });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
 
-  fetch('/api/health').then((r) => r.json()).then((h) => { $('login-hint').textContent = h.demoHint || ''; $('provider').textContent = `source: ${h.provider}`; }).catch(() => {});
-  if (state.token) enter().catch(signedOut); else $('login').showModal();
+  $('sso-reload').addEventListener('click', () => location.reload());
+  fetch('/api/health').then((r) => r.json()).then((hl) => {
+    state.proxy = hl.authMode === 'proxy';
+    $('login-hint').textContent = hl.demoHint || ''; $('provider').textContent = `source: ${hl.provider}`;
+    if (state.proxy) enter().catch((e) => { $('sso-msg').textContent = e.message; $('sso-expired').showModal(); });
+    else if (state.token) enter().catch(signedOut); else $('login').showModal();
+  }).catch(() => toast('Cannot reach the monitor server.', 'error'));
 }
 init();

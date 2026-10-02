@@ -39,6 +39,13 @@ export class AuthService {
 
   logout(token) { this.#sessions.delete(token); }
 
+  get mode() { return 'local'; }
+  fromRequest(req) {
+    const m = /^Bearer (.+)$/.exec(req.headers.authorization || '');
+    return m ? this.authenticate(m[1]) : null;
+  }
+  checkCsrf() {} // bearer tokens in a header are not sent automatically by browsers
+
   authenticate(token) {
     const s = this.#sessions.get(token);
     if (!s) return null;

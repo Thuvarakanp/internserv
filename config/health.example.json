@@ -1,0 +1,5 @@
+{
+  "api-gateway": { "type": "http", "url": "http://127.0.0.1:8080/health", "expectStatus": 200, "timeoutMs": 2000 },
+  "redis-cache": { "type": "tcp", "host": "127.0.0.1", "port": 6379 },
+  "payment-service": { "type": "http", "url": "http://127.0.0.1:8104/healthz", "expectStatus": [200, 204] }
+}

@@ -106,3 +106,11 @@ test('docker provider maps container states', async () => {
   const p = new DockerProvider({ exec: async () => rows });
   assert.deepEqual((await p.list()).map((s) => s.status), ['running', 'failed', 'stopped']);
 });
+
+test('config: test account exists in mock mode only', async () => {
+  const { loadConfig } = await import('../src/config.js');
+  assert.equal(loadConfig({}).users['Test@tester.com'].role, 'operator');
+  assert.equal(loadConfig({ PROVIDER: 'docker', USERS_JSON: '{}' }).users['Test@tester.com'], undefined);
+  assert.throws(() => loadConfig({ PROVIDER: 'docker' }), /USERS_JSON/);
+  assert.equal(loadConfig({ PROVIDER: 'docker', AUTH_MODE: 'proxy' }).authMode, 'proxy'); // no local users needed with SSO
+});

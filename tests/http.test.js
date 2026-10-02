@@ -17,7 +17,7 @@ before(async () => {
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
   base = `http://127.0.0.1:${server.address().port}`;
 });
-after(() => server.close());
+after(() => { server.closeAllConnections(); server.close(); });
 
 test('API requires auth', async () => {
   assert.equal((await call('/api/services')).status, 401);
