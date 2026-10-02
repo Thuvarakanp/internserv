@@ -24,6 +24,8 @@ const ICONS = {
   check: '<polyline points="20 6 9 17 4 12"/>',
   x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
   logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>',
+  moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
   pause: '<line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/>',
 };
 function icon(name) {
@@ -376,7 +378,24 @@ function selectView(name, { updateHash = true } = {}) {
   if (name === 'audit') loadAudit();
 }
 
+/* Theme: light by default; the choice is remembered per browser. */
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = $('theme');
+  btn.replaceChildren(icon(theme === 'light' ? 'moon' : 'sun'));
+  const next = theme === 'light' ? 'dark' : 'light';
+  btn.title = `Switch to ${next} mode`; btn.setAttribute('aria-label', `Switch to ${next} mode`);
+  try { localStorage.setItem('theme', theme); } catch {}
+}
+function initTheme() {
+  let t = 'light';
+  try { t = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'; } catch {}
+  applyTheme(t);
+  $('theme').addEventListener('click', () => applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+}
+
 function init() {
+  initTheme();
   const nav = [['dashboard', 'grid', 'Dashboard'], ['services', 'server', 'Services'], ['activity', 'pulse', 'Activity'], ['audit', 'file', 'Audit log']];
   for (const [v, ic, label] of nav) { $(`nav-${v}`).append(icon(ic), label); $(`nav-${v}`).addEventListener('click', () => selectView(v)); }
   $('bell').prepend(icon('bell')); $('bell').addEventListener('click', () => selectView('activity'));

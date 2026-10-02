@@ -24,6 +24,8 @@
   --ok: #9fe08a; --ok-bg: #1d3320; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
   --off: #aaa7c8; --off-bg: #26223f; --busy: #c4bcff; --busy-bg: #2a2552; --line-chart: #a79bff; --hatch: rgba(26,18,64,.35); color-scheme: dark;
 }
+
+:root[data-theme="light"] { color-scheme: light; }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
 body {
