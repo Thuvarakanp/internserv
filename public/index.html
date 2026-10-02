@@ -4,53 +4,87 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Service Monitor</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%2322a06b'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%230f3a2c'/%3E%3Ccircle cx='8' cy='8' r='3' fill='%23e8ff4a'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="topbar">
-    <div class="brand"><span class="logo" aria-hidden="true"></span><h1>Service Monitor</h1><span id="provider" class="chip"></span></div>
-    <div class="who">
-      <span id="updated" class="muted" role="status"></span>
-      <span id="user" class="muted"></span>
-      <button id="logout" class="btn ghost" hidden>Sign out</button>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand"><span class="logo" aria-hidden="true"></span><span class="brand-name">Service Monitor</span></div>
+      <nav class="sidenav" aria-label="Views">
+        <button class="navbtn" id="nav-dashboard" data-view="dashboard" aria-current="page"></button>
+        <button class="navbtn" id="nav-activity" data-view="activity"></button>
+        <button class="navbtn" id="nav-audit" data-view="audit" hidden></button>
+      </nav>
+      <div class="usercard" id="usercard" hidden>
+        <span class="avatar" id="avatar-sm" aria-hidden="true"></span>
+        <span class="who"><b id="user-name"></b><small id="user-role"></small></span>
+        <button id="logout" class="iconbtn" aria-label="Sign out" title="Sign out"></button>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header class="top">
+        <nav id="groups" class="pillnav" aria-label="Service groups"></nav>
+        <div class="top-right">
+          <span id="updated" class="muted" role="status"></span>
+          <span id="provider" class="chip"></span>
+          <button id="bell" class="roundbtn" aria-label="Open activity" title="Activity"><span class="dot" id="bell-dot" hidden></span></button>
+        </div>
+      </header>
+
+      <main id="main" hidden>
+        <section id="banner" class="banner" aria-live="polite" hidden></section>
+
+        <div id="view-dashboard">
+          <section id="tiles" class="kpis" aria-label="Summary"></section>
+
+          <div class="row2">
+            <section class="card" aria-labelledby="h-activity">
+              <header class="card-head"><div><h2 id="h-activity">Recent activity</h2><p class="sub">Latest status changes and services needing attention</p></div><button class="pillbtn" id="all-activity" type="button">View all</button></header>
+              <ul id="recent" class="timeline"></ul>
+            </section>
+            <section class="card" aria-labelledby="h-chart">
+              <header class="card-head"><div><h2 id="h-chart">Response time</h2><p class="sub">Slowest services right now</p></div></header>
+              <div class="chart-top"><b id="chart-avg" class="big"></b><span id="chart-pill" class="delta"></span></div>
+              <div id="chart" class="bars" role="img" aria-label="Response time per service"></div>
+            </section>
+          </div>
+
+          <section class="card tablecard" aria-labelledby="h-dir">
+            <header class="card-head wrap">
+              <div><h2 id="h-dir">Service directory</h2><p class="sub">Status, health and restart controls</p></div>
+              <div class="toolbar">
+                <label class="search"><span class="sr">Search services</span><input id="q" type="search" placeholder="Search services" autocomplete="off"></label>
+                <div id="filters" class="filters" role="group" aria-label="Filter by status"></div>
+              </div>
+            </header>
+            <div class="tablewrap">
+              <table>
+                <thead><tr><th scope="col">Service</th><th scope="col">Status</th><th scope="col" class="num">Latency</th><th scope="col" class="hide-sm">Trend</th><th scope="col" class="num hide-sm">Uptime</th><th scope="col" class="hide-md num">CPU / Mem</th><th scope="col"><span class="sr">Actions</span></th></tr></thead>
+                <tbody id="rows"></tbody>
+              </table>
+              <p id="empty" class="empty" hidden>No services match your filters.</p>
+            </div>
+          </section>
+        </div>
+
+        <section id="view-activity" class="card" hidden aria-labelledby="h-act2">
+          <header class="card-head"><div><h2 id="h-act2">Activity</h2><p class="sub">Every status change since the monitor started</p></div></header>
+          <ul id="events" class="timeline"></ul>
+        </section>
+        <section id="view-audit" class="card tablecard" hidden aria-labelledby="h-aud">
+          <header class="card-head"><div><h2 id="h-aud">Audit log</h2><p class="sub">Who did what, including denied attempts</p></div></header>
+          <div class="tablewrap"><table><thead><tr><th scope="col">Time</th><th scope="col">User</th><th scope="col">Action</th><th scope="col">Target</th><th scope="col">Result</th><th scope="col">Detail</th></tr></thead><tbody id="audit"></tbody></table></div>
+        </section>
+      </main>
     </div>
-  </header>
-
-  <main id="main" hidden>
-    <section id="banner" class="banner" aria-live="polite"></section>
-    <section id="tiles" class="tiles" aria-label="Summary"></section>
-
-    <nav class="tabs" role="tablist" aria-label="Views">
-      <button role="tab" id="tab-services" aria-selected="true" aria-controls="panel-services">Services</button>
-      <button role="tab" id="tab-activity" aria-selected="false" aria-controls="panel-activity">Activity</button>
-      <button role="tab" id="tab-audit" aria-selected="false" aria-controls="panel-audit" hidden>Audit log</button>
-    </nav>
-
-    <section id="panel-services" role="tabpanel" aria-labelledby="tab-services">
-      <div class="toolbar">
-        <label class="search"><span class="sr">Search services</span><input id="q" type="search" placeholder="Search services…" autocomplete="off"></label>
-        <div id="filters" class="filters" role="group" aria-label="Filter by status"></div>
-        <label class="select"><span class="sr">Group</span><select id="group"><option value="">All groups</option></select></label>
-      </div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th scope="col">Service</th><th scope="col">Status</th><th scope="col" class="num">Latency</th><th scope="col" class="hide-sm">Trend</th><th scope="col" class="num hide-sm">Uptime</th><th scope="col" class="hide-md num">CPU / Mem</th><th scope="col"><span class="sr">Actions</span></th></tr></thead>
-          <tbody id="rows"></tbody>
-        </table>
-        <p id="empty" class="empty" hidden>No services match your filters.</p>
-      </div>
-    </section>
-
-    <section id="panel-activity" role="tabpanel" aria-labelledby="tab-activity" hidden><ul id="events" class="feed"></ul></section>
-    <section id="panel-audit" role="tabpanel" aria-labelledby="tab-audit" hidden>
-      <div class="tablewrap"><table><thead><tr><th scope="col">Time</th><th scope="col">User</th><th scope="col">Action</th><th scope="col">Target</th><th scope="col">Result</th><th scope="col">Detail</th></tr></thead><tbody id="audit"></tbody></table></div>
-    </section>
-  </main>
+  </div>
 
   <dialog id="login" aria-labelledby="login-title">
     <form id="login-form" method="dialog">
+      <span class="logo big-logo" aria-hidden="true"></span>
       <h2 id="login-title">Sign in</h2>
       <label>Username<input id="lu" name="username" autocomplete="username" required></label>
       <label>Password<input id="lp" name="password" type="password" autocomplete="current-password" required></label>
