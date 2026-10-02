@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Service Monitor</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%2322a06b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="brand"><span class="logo" aria-hidden="true"></span><h1>Service Monitor</h1><span id="provider" class="chip"></span></div>
+    <div class="who">
+      <span id="updated" class="muted" role="status"></span>
+      <span id="user" class="muted"></span>
+      <button id="logout" class="btn ghost" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main id="main" hidden>
+    <section id="banner" class="banner" aria-live="polite"></section>
+    <section id="tiles" class="tiles" aria-label="Summary"></section>
+
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button role="tab" id="tab-services" aria-selected="true" aria-controls="panel-services">Services</button>
+      <button role="tab" id="tab-activity" aria-selected="false" aria-controls="panel-activity">Activity</button>
+      <button role="tab" id="tab-audit" aria-selected="false" aria-controls="panel-audit" hidden>Audit log</button>
+    </nav>
+
+    <section id="panel-services" role="tabpanel" aria-labelledby="tab-services">
+      <div class="toolbar">
+        <label class="search"><span class="sr">Search services</span><input id="q" type="search" placeholder="Search services…" autocomplete="off"></label>
+        <div id="filters" class="filters" role="group" aria-label="Filter by status"></div>
+        <label class="select"><span class="sr">Group</span><select id="group"><option value="">All groups</option></select></label>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col">Service</th><th scope="col">Status</th><th scope="col" class="num">Latency</th><th scope="col" class="hide-sm">Trend</th><th scope="col" class="num hide-sm">Uptime</th><th scope="col" class="hide-md num">CPU / Mem</th><th scope="col"><span class="sr">Actions</span></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p id="empty" class="empty" hidden>No services match your filters.</p>
+      </div>
+    </section>
+
+    <section id="panel-activity" role="tabpanel" aria-labelledby="tab-activity" hidden><ul id="events" class="feed"></ul></section>
+    <section id="panel-audit" role="tabpanel" aria-labelledby="tab-audit" hidden>
+      <div class="tablewrap"><table><thead><tr><th scope="col">Time</th><th scope="col">User</th><th scope="col">Action</th><th scope="col">Target</th><th scope="col">Result</th><th scope="col">Detail</th></tr></thead><tbody id="audit"></tbody></table></div>
+    </section>
+  </main>
+
+  <dialog id="login" aria-labelledby="login-title">
+    <form id="login-form" method="dialog">
+      <h2 id="login-title">Sign in</h2>
+      <label>Username<input id="lu" name="username" autocomplete="username" required></label>
+      <label>Password<input id="lp" name="password" type="password" autocomplete="current-password" required></label>
+      <p id="login-err" class="error" role="alert"></p>
+      <p id="login-hint" class="muted"></p>
+      <button class="btn primary" type="submit">Sign in</button>
+    </form>
+  </dialog>
+
+  <dialog id="detail" aria-labelledby="detail-title"></dialog>
+
+  <dialog id="confirm" aria-labelledby="confirm-title">
+    <form id="confirm-form" method="dialog">
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-body"></p>
+      <label id="confirm-type" hidden>Type <strong id="confirm-name"></strong> to confirm<input id="confirm-input" autocomplete="off"></label>
+      <div class="actions">
+        <button class="btn ghost" value="cancel" type="button" id="confirm-cancel">Cancel</button>
+        <button class="btn danger" id="confirm-ok" type="submit">Restart</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

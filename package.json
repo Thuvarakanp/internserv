@@ -1,0 +1,13 @@
+{
+  "name": "internserv",
+  "version": "1.0.0",
+  "description": "Internal tool to monitor server-side services and restart them safely",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test tests/*.test.js"
+  }
+}
