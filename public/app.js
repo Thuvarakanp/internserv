@@ -237,7 +237,7 @@ function renderChart(d) {
   chart.setAttribute('aria-label', `Response time of the ${live.length} slowest services: ${live.map((s) => `${s.name} ${s.latencyMs} ms`).join(', ')}`);
   chart.replaceChildren(...live.map((s, i) => {
     const bar = h('div', { class: `bar ${i === 0 ? 'hot' : ''}` });
-    bar.style.height = `${Math.max(6, (s.latencyMs / max) * 100)}%`;
+    bar.style.height = `${Math.max(6, Math.sqrt(s.latencyMs / max) * 100)}%`; // sqrt scale keeps small bars visible next to one outlier
     return h('div', { class: 'barcol', title: `${s.name}: ${s.latencyMs} ms` },
       h('div', { class: 'bartrack' }, i === 0 ? h('span', { class: 'bar-tip' }, `${s.latencyMs} ms`) : null, bar),
       h('span', { class: 'barlabel' }, s.name.replace(/-(service|primary|worker|broker|generator|processor|scheduler|cache)$/, '')));

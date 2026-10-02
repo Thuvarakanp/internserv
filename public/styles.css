@@ -12,14 +12,14 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0a1410; --glow-1: #2c3d0c; --glow-2: #1f3310; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
+    --bg: #0a1410; --glow-1: #1d2a0a; --glow-2: #15240c; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
     --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #e8ff4a; --on-brand: #12301f; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
     --ok: #c6ee7b; --ok-bg: #26370f; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
     --off: #a3b0a8; --off-bg: #222e27; --busy: #8fe0c4; --busy-bg: #123a2e; --line-chart: #c6ee7b; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0a1410; --glow-1: #2c3d0c; --glow-2: #1f3310; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
+  --bg: #0a1410; --glow-1: #1d2a0a; --glow-2: #15240c; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
   --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #e8ff4a; --on-brand: #12301f; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
   --ok: #c6ee7b; --ok-bg: #26370f; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
   --off: #a3b0a8; --off-bg: #222e27; --busy: #8fe0c4; --busy-bg: #123a2e; --line-chart: #c6ee7b; color-scheme: dark;
@@ -28,9 +28,14 @@
 html { background: var(--bg); }
 body {
   margin: 0; color: var(--ink); font: 14.5px/1.45 var(--font); min-height: 100vh; -webkit-font-smoothing: antialiased;
-  background: radial-gradient(900px 520px at -6% -8%, var(--glow-1), transparent 62%), radial-gradient(900px 560px at 108% 112%, var(--glow-2), transparent 62%), var(--bg);
-  background-attachment: fixed;
+  background: var(--bg);
 }
+/* Glow lives on its own fixed layer: avoids the banding/seams that background-attachment:fixed + backdrop blur cause. */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(900px 520px at -6% -8%, var(--glow-1), transparent 62%), radial-gradient(900px 560px at 108% 112%, var(--glow-2), transparent 62%);
+}
+body { position: relative; isolation: isolate; }
 [hidden] { display: none !important; }
 h1, h2, p { margin: 0; }
 h2 { font-size: 18px; font-weight: 650; letter-spacing: -.01em; }
@@ -47,9 +52,9 @@ svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-wi
 .side { padding: 22px 16px; display: flex; flex-direction: column; gap: 26px; position: sticky; top: 0; height: 100vh; }
 .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px; }
 .brand-name { font-weight: 700; font-size: 17px; letter-spacing: -.02em; }
-.logo { width: 36px; height: 36px; border-radius: 11px; background: var(--brand); position: relative; display: inline-block; flex: none; }
-.logo::after { content: ""; position: absolute; inset: 9px; border-radius: 6px 6px 6px 2px; background: var(--lime); }
-.logo::before { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--brand); left: 14px; top: 14px; z-index: 1; }
+.logo { width: 36px; height: 36px; border-radius: 11px; background: #0f3a2c; box-shadow: 0 0 0 1px rgba(232,255,74,.25); position: relative; display: inline-block; flex: none; }
+.logo::after { content: ""; position: absolute; inset: 9px; border-radius: 6px 6px 6px 2px; background: #e8ff4a; }
+.logo::before { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #0f3a2c; left: 14px; top: 14px; z-index: 1; }
 .big-logo { width: 44px; height: 44px; }
 .sidenav { display: grid; gap: 4px; }
 .navbtn { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 14px; border: 0; background: transparent; color: var(--ink); font: inherit; font-weight: 550; cursor: pointer; text-align: left; }
@@ -75,13 +80,13 @@ svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-wi
 .dot { position: absolute; top: 9px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--err); border: 2px solid var(--card-solid); }
 
 /* cards */
-.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px 22px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); min-width: 0; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px 22px; min-width: 0; }
 .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
 .card-head.wrap { flex-wrap: wrap; }
 .row2 { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 16px; margin: 16px 0; }
 
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
-.kpi { min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 16px 18px 14px; display: grid; gap: 14px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.kpi { min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 16px 18px 14px; display: grid; gap: 14px; }
 .kpi-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .kpi-label { color: var(--muted); font-size: 13px; font-weight: 550; }
 .kpi-value { font-size: 27px; font-weight: 650; letter-spacing: -.02em; line-height: 1.15; margin-top: 6px; font-variant-numeric: tabular-nums; }
