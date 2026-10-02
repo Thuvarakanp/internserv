@@ -11,6 +11,7 @@ npm test             # 19 tests (node:test)
 Demo logins (mock mode only): `viewer / viewer123`, `operator / operator123`, `admin / admin123`, and the test account `Test@tester.com` (operator). These are disabled whenever `PROVIDER` is not `mock`.
 
 ## Features
+- Separate pages: Dashboard (summary, activity, response times), Services (directory with search, filters, restart), Activity, Audit log (admin). Each page has its own address (`#services`, `#activity`, `#audit`)
 - Live dashboard: status (running / degraded / failed / stopped / restarting), latency + trend, uptime, CPU/memory, summary tiles and an overall banner
 - Search, status filters, group filter; service detail dialog; activity feed of status changes
 - **Restart** with confirmation (critical services require typing the name), per-service cooldown, and an admin-only **audit log**

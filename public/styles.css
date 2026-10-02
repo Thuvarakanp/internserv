@@ -31,6 +31,7 @@ body {
   background: radial-gradient(900px 520px at -6% -8%, var(--glow-1), transparent 62%), radial-gradient(900px 560px at 108% 112%, var(--glow-2), transparent 62%), var(--bg);
   background-attachment: fixed;
 }
+[hidden] { display: none !important; }
 h1, h2, p { margin: 0; }
 h2 { font-size: 18px; font-weight: 650; letter-spacing: -.01em; }
 .sub { color: var(--muted); font-size: 12.5px; margin-top: 2px; }

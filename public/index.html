@@ -14,6 +14,7 @@
       <div class="brand"><span class="logo" aria-hidden="true"></span><span class="brand-name">Service Monitor</span></div>
       <nav class="sidenav" aria-label="Views">
         <button class="navbtn" id="nav-dashboard" data-view="dashboard" aria-current="page"></button>
+        <button class="navbtn" id="nav-services" data-view="services"></button>
         <button class="navbtn" id="nav-activity" data-view="activity"></button>
         <button class="navbtn" id="nav-audit" data-view="audit" hidden></button>
       </nav>
@@ -46,29 +47,30 @@
               <ul id="recent" class="timeline"></ul>
             </section>
             <section class="card" aria-labelledby="h-chart">
-              <header class="card-head"><div><h2 id="h-chart">Response time</h2><p class="sub">Slowest services right now</p></div></header>
+              <header class="card-head"><div><h2 id="h-chart">Response time</h2><p class="sub">Slowest services right now</p></div><button class="pillbtn" id="open-services" type="button">All services</button></header>
               <div class="chart-top"><b id="chart-avg" class="big"></b><span id="chart-pill" class="delta"></span></div>
               <div id="chart" class="bars" role="img" aria-label="Response time per service"></div>
             </section>
           </div>
 
-          <section class="card tablecard" aria-labelledby="h-dir">
-            <header class="card-head wrap">
-              <div><h2 id="h-dir">Service directory</h2><p class="sub">Status, health and restart controls</p></div>
-              <div class="toolbar">
-                <label class="search"><span class="sr">Search services</span><input id="q" type="search" placeholder="Search services" autocomplete="off"></label>
-                <div id="filters" class="filters" role="group" aria-label="Filter by status"></div>
-              </div>
-            </header>
-            <div class="tablewrap">
-              <table>
-                <thead><tr><th scope="col">Service</th><th scope="col">Status</th><th scope="col" class="num">Latency</th><th scope="col" class="hide-sm">Trend</th><th scope="col" class="num hide-sm">Uptime</th><th scope="col" class="hide-md num">CPU / Mem</th><th scope="col"><span class="sr">Actions</span></th></tr></thead>
-                <tbody id="rows"></tbody>
-              </table>
-              <p id="empty" class="empty" hidden>No services match your filters.</p>
-            </div>
-          </section>
         </div>
+
+        <section id="view-services" class="card tablecard" aria-labelledby="h-dir" hidden>
+          <header class="card-head wrap">
+            <div><h2 id="h-dir">Services</h2><p class="sub">Status, health and restart controls</p></div>
+            <div class="toolbar">
+              <label class="search"><span class="sr">Search services</span><input id="q" type="search" placeholder="Search services" autocomplete="off"></label>
+              <div id="filters" class="filters" role="group" aria-label="Filter by status"></div>
+            </div>
+          </header>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th scope="col">Service</th><th scope="col">Status</th><th scope="col" class="num">Latency</th><th scope="col" class="hide-sm">Trend</th><th scope="col" class="num hide-sm">Uptime</th><th scope="col" class="hide-md num">CPU / Mem</th><th scope="col"><span class="sr">Actions</span></th></tr></thead>
+              <tbody id="rows"></tbody>
+            </table>
+            <p id="empty" class="empty" hidden>No services match your filters.</p>
+          </div>
+        </section>
 
         <section id="view-activity" class="card" hidden aria-labelledby="h-act2">
           <header class="card-head"><div><h2 id="h-act2">Activity</h2><p class="sub">Every status change since the monitor started</p></div></header>

@@ -357,27 +357,32 @@ async function enter() {
   $('avatar-sm').textContent = initials(name.split('@')[0]);
   $('usercard').hidden = false; $('logout').hidden = state.proxy; $('main').hidden = false;
   $('nav-audit').hidden = state.user.role !== 'admin';
-  selectView('dashboard');
+  selectView(location.hash.slice(1) || 'dashboard', { updateHash: false });
   await refresh(); startPolling();
 }
 
-function selectView(name) {
+const VIEWS = ['dashboard', 'services', 'activity', 'audit'];
+function selectView(name, { updateHash = true } = {}) {
+  if (!VIEWS.includes(name) || (name === 'audit' && state.user?.role !== 'admin')) name = 'dashboard';
   state.view = name;
-  for (const v of ['dashboard', 'activity', 'audit']) {
+  if (updateHash) { try { history.replaceState(null, '', name === 'dashboard' ? location.pathname + location.search : `#${name}`); } catch {} }
+  for (const v of VIEWS) {
     $(`view-${v}`).hidden = v !== name;
     const b = $(`nav-${v}`);
     if (v === name) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
   }
-  $('groups').hidden = name !== 'dashboard';
+  $('groups').hidden = name !== 'services';
   if (name === 'activity') loadEvents();
   if (name === 'audit') loadAudit();
 }
 
 function init() {
-  const nav = [['dashboard', 'grid', 'Dashboard'], ['activity', 'pulse', 'Activity'], ['audit', 'file', 'Audit log']];
+  const nav = [['dashboard', 'grid', 'Dashboard'], ['services', 'server', 'Services'], ['activity', 'pulse', 'Activity'], ['audit', 'file', 'Audit log']];
   for (const [v, ic, label] of nav) { $(`nav-${v}`).append(icon(ic), label); $(`nav-${v}`).addEventListener('click', () => selectView(v)); }
   $('bell').prepend(icon('bell')); $('bell').addEventListener('click', () => selectView('activity'));
   $('all-activity').addEventListener('click', () => selectView('activity'));
+  $('open-services').addEventListener('click', () => selectView('services'));
+  addEventListener('hashchange', () => { if (state.user) selectView(location.hash.slice(1) || 'dashboard', { updateHash: false }); });
   $('logout').append(icon('logout'));
   $('q').addEventListener('input', (e) => { state.q = e.target.value; if (state.data) renderRows(state.data); });
   $('logout').addEventListener('click', async () => { try { await api('/api/logout', { method: 'POST' }); } catch {} signedOut(); });
