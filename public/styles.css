@@ -4,25 +4,25 @@
   --bg: #f4f6f1; --glow-1: #e6f7a6; --glow-2: #e9f9b8;
   --card: rgba(255,255,255,.66); --card-solid: #fbfcf8; --line: rgba(15,40,28,.09);
   --ink: #0e1f18; --muted: #66756d; --soft: #e9eee6; --soft-2: #f1f4ee;
-  --brand: #0f3a2c; --on-brand: #f1ffd0; --lime: #e8ff4a; --on-lime: #12301f; --bar: #dfe5dc;
+  --brand: #2b2365; --on-brand: #ffffff; --focus: #2b2365; --lime: #e8ff4a; --on-lime: #12301f; --bar: #dfe5dc;
   --ok: #3d6a12; --ok-bg: #e2f4bf; --warn: #8a5a00; --warn-bg: #ffefc7; --err: #bf3b2e; --err-bg: #fde2df;
-  --off: #55625b; --off-bg: #e6eae4; --busy: #0f5e4a; --busy-bg: #d5eee5;
-  --line-chart: #14543f;
+  --off: #55625b; --off-bg: #e6eae4; --busy: #2b2365; --busy-bg: #e0dcf6;
+  --line-chart: #2b2365;
   --r-lg: 24px; --r-md: 16px; --r-sm: 10px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0a1410; --glow-1: #1d2a0a; --glow-2: #15240c; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
-    --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #e8ff4a; --on-brand: #12301f; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
+    --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #2b2365; --on-brand: #ece9ff; --focus: #a79bff; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
     --ok: #c6ee7b; --ok-bg: #26370f; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
-    --off: #a3b0a8; --off-bg: #222e27; --busy: #8fe0c4; --busy-bg: #123a2e; --line-chart: #c6ee7b; color-scheme: dark;
+    --off: #a3b0a8; --off-bg: #222e27; --busy: #c4bcff; --busy-bg: #2a2552; --line-chart: #a79bff; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0a1410; --glow-1: #1d2a0a; --glow-2: #15240c; --card: rgba(255,255,255,.045); --card-solid: #111d17; --line: rgba(255,255,255,.09);
-  --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #e8ff4a; --on-brand: #12301f; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
+  --ink: #eaf2ec; --muted: #93a39a; --soft: #1a2820; --soft-2: #16231c; --brand: #2b2365; --on-brand: #ece9ff; --focus: #a79bff; --lime: #e8ff4a; --on-lime: #12301f; --bar: #24342b;
   --ok: #c6ee7b; --ok-bg: #26370f; --warn: #f2c261; --warn-bg: #3a2d10; --err: #ff9a90; --err-bg: #3d1a18;
-  --off: #a3b0a8; --off-bg: #222e27; --busy: #8fe0c4; --busy-bg: #123a2e; --line-chart: #c6ee7b; color-scheme: dark;
+  --off: #a3b0a8; --off-bg: #222e27; --busy: #c4bcff; --busy-bg: #2a2552; --line-chart: #a79bff; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
@@ -43,7 +43,7 @@ h2 { font-size: 18px; font-weight: 650; letter-spacing: -.01em; }
 .muted { color: var(--muted); font-size: 13px; }
 .sr { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: -999px; } .skip:focus { left: 8px; top: 8px; background: var(--card-solid); padding: 8px 12px; z-index: 99; border-radius: 8px; }
-:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
 .shell { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 0; max-width: 1480px; margin: 0 auto; min-height: 100vh; }
@@ -52,9 +52,9 @@ svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-wi
 .side { padding: 22px 16px; display: flex; flex-direction: column; gap: 26px; position: sticky; top: 0; height: 100vh; }
 .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px; }
 .brand-name { font-weight: 700; font-size: 17px; letter-spacing: -.02em; }
-.logo { width: 36px; height: 36px; border-radius: 11px; background: #0f3a2c; box-shadow: 0 0 0 1px rgba(232,255,74,.25); position: relative; display: inline-block; flex: none; }
+.logo { width: 36px; height: 36px; border-radius: 11px; background: #2b2365; box-shadow: 0 0 0 1px rgba(232,255,74,.25); position: relative; display: inline-block; flex: none; }
 .logo::after { content: ""; position: absolute; inset: 9px; border-radius: 6px 6px 6px 2px; background: #e8ff4a; }
-.logo::before { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #0f3a2c; left: 14px; top: 14px; z-index: 1; }
+.logo::before { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #2b2365; left: 14px; top: 14px; z-index: 1; }
 .big-logo { width: 44px; height: 44px; }
 .sidenav { display: grid; gap: 4px; }
 .navbtn { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 14px; border: 0; background: transparent; color: var(--ink); font: inherit; font-weight: 550; cursor: pointer; text-align: left; }
@@ -125,7 +125,7 @@ svg.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-wi
 .btn:disabled { opacity: .45; cursor: not-allowed; }
 .btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
 .btn.primary:hover:not(:disabled) { background: var(--brand); filter: brightness(1.15); }
-.btn.danger { background: var(--err); border-color: var(--err); color: #fff; }
+.btn.danger { background: var(--err); border-color: var(--err); color: var(--bg); }
 .btn.ghost { background: transparent; }
 .btn.sm { padding: 5px 13px; min-height: 32px; font-size: 13px; }
 .pillbtn { font: inherit; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--card-solid); color: var(--ink); cursor: pointer; }
@@ -185,7 +185,7 @@ dt { color: var(--muted); } dd { margin: 0; font-variant-numeric: tabular-nums; 
 #detail .timeline li { padding: 6px 0; }
 .toasts { position: fixed; right: 18px; bottom: 18px; display: grid; gap: 8px; z-index: 50; max-width: calc(100vw - 36px); }
 .toast { background: var(--brand); color: var(--on-brand); padding: 11px 16px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); font-size: 14px; font-weight: 550; }
-.toast.error { background: var(--err); color: #fff; }
+.toast.error { background: var(--err); color: var(--bg); }
 
 /* responsive */
 @media (max-width: 1100px) { .row2 { grid-template-columns: minmax(0, 1fr); } }
