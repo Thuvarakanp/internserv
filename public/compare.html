@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document Compare</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%232b2365'/%3E%3Cpath d='M4 5h3v6H4zM9 5h3v6H9z' fill='%23cdc4ff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/compare.css">
+</head>
+<body>
+  <a class="skip" href="#results">Skip to results</a>
+  <header class="top">
+    <h1>Document Compare</h1>
+    <p class="sub">Load two versions of a document and see exactly what changed. Everything runs in your browser — files are never uploaded.</p>
+  </header>
+
+  <main>
+    <form id="form" class="inputs" autocomplete="off">
+      <section class="pane" aria-labelledby="la">
+        <div class="pane-head">
+          <h2 id="la">Original</h2>
+          <label class="pillbtn">Choose file<input type="file" id="file-a" accept=".txt,.md,.csv,.json,.xml,.html,.log,.docx,text/*"></label>
+        </div>
+        <p class="fname" id="name-a">Drop a file here, or paste text</p>
+        <textarea id="text-a" spellcheck="false" aria-labelledby="la" placeholder="Paste the original text…"></textarea>
+      </section>
+      <section class="pane" aria-labelledby="lb">
+        <div class="pane-head">
+          <h2 id="lb">Revised</h2>
+          <label class="pillbtn">Choose file<input type="file" id="file-b" accept=".txt,.md,.csv,.json,.xml,.html,.log,.docx,text/*"></label>
+        </div>
+        <p class="fname" id="name-b">Drop a file here, or paste text</p>
+        <textarea id="text-b" spellcheck="false" aria-labelledby="lb" placeholder="Paste the revised text…"></textarea>
+      </section>
+
+      <div class="actions">
+        <button type="submit" class="primary">Compare</button>
+        <button type="button" id="swap" class="pillbtn">Swap</button>
+        <button type="button" id="clear" class="pillbtn">Clear</button>
+        <label class="check"><input type="checkbox" id="opt-ws"> Ignore whitespace</label>
+        <label class="check"><input type="checkbox" id="opt-case"> Ignore case</label>
+      </div>
+    </form>
+
+    <p id="error" class="error" role="alert" hidden></p>
+
+    <section id="results" class="results" aria-live="polite" hidden>
+      <div class="toolbar">
+        <div class="stats" id="stats"></div>
+        <div class="controls">
+          <fieldset class="seg"><legend class="sr">View</legend>
+            <label><input type="radio" name="view" value="split" checked> Side by side</label>
+            <label><input type="radio" name="view" value="inline"> Inline</label>
+          </fieldset>
+          <label class="check"><input type="checkbox" id="only-diff"> Differences only</label>
+          <span class="nav">
+            <button type="button" id="prev" class="pillbtn" aria-label="Previous difference">↑ Prev</button>
+            <span id="pos" class="muted" aria-live="polite"></span>
+            <button type="button" id="next" class="pillbtn" aria-label="Next difference">↓ Next</button>
+          </span>
+        </div>
+      </div>
+      <div id="diff" class="diff" role="region" aria-label="Differences" tabindex="0"></div>
+    </section>
+  </main>
+  <script type="module" src="/compare.js"></script>
+</body>
+</html>
