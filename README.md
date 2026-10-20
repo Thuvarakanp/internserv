@@ -18,6 +18,9 @@ Demo logins (mock mode only): `viewer / viewer123`, `operator / operator123`, `a
 - Roles: `viewer` (read), `operator` (restart), `admin` (restart + audit log)
 - Accessible (keyboard, screen-reader labels, status shown by icon + text, not colour alone), responsive, light/dark
 
+## Document compare
+Open `/compare.html` (no sign-in needed) to compare two versions of a document. Drop or choose files — `.docx`, `.txt`, `.md`, `.csv`, `.json`, … — or paste text. Differences are highlighted down to the word, with side-by-side and inline views, a "differences only" mode, previous/next navigation, and ignore-whitespace / ignore-case options. It runs entirely in the browser (files are never uploaded). The diff engine is `public/diff.js`, `.docx` reading is `public/docx.js`. PDF is not supported yet.
+
 ## Using real services
 ```bash
 PROVIDER=systemd USERS_JSON='{"alice":{"password":"change-me","role":"admin"}}' \
